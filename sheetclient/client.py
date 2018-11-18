@@ -106,6 +106,7 @@ class GoogleSheetClient(object):
 		start_row: int,
 		end_column: int,
 		end_row: int,
+		major_dimension: str = 'ROWS',
 	) -> t.List[t.List[str]]:
 		_range = self._range_name(
 			sheet_name = sheet_name,
@@ -122,6 +123,7 @@ class GoogleSheetClient(object):
 			.get(
 				spreadsheetId = self._meta_sheet_id,
 				range = _range,
+				majorDimension = major_dimension,
 			)
 			.execute()
 		)
