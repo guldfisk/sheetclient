@@ -17,8 +17,8 @@ SCOPES = 'https://www.googleapis.com/auth/spreadsheets'
 class GoogleSheetClient(object):
 	_DISCOVERY_URL = 'https://sheets.googleapis.com/$discovery/rest?version=v4'
 
-	def __init__(self, meta_sheet_id: str):
-		self._meta_sheet_id = meta_sheet_id
+	def __init__(self, spreadsheet_id: str):
+		self._spreadsheet_id = spreadsheet_id
 
 		self._credentials = self._get_credentials()
 
@@ -91,10 +91,35 @@ class GoogleSheetClient(object):
 			.spreadsheets()
 			.values()
 			.update(
-				spreadsheetId = self._meta_sheet_id,
+				spreadsheetId = self._spreadsheet_id,
 				range = _range,
 				valueInputOption = 'RAW',
 				body = update_values,
+			)
+			.execute()
+		)
+
+	def clear_sheet(
+		self,
+		sheet_name: str,
+	) -> None:
+		(
+			self._service
+			.spreadsheets()
+			.batchUpdate(
+				spreadsheetId = self._spreadsheet_id,
+				body = {
+					"requests": [
+						{
+							"updateCells": {
+								"range": {
+									"sheetId": sheet_name
+								},
+								"fields": "userEnteredValue"
+							}
+						}
+					]
+},
 			)
 			.execute()
 		)
@@ -121,7 +146,7 @@ class GoogleSheetClient(object):
 			.spreadsheets()
 			.values()
 			.get(
-				spreadsheetId = self._meta_sheet_id,
+				spreadsheetId = self._spreadsheet_id,
 				range = _range,
 				majorDimension = major_dimension,
 			)
