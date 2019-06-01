@@ -8,12 +8,12 @@ def package_files(directory):
 			paths.append(os.path.join('..', path, filename))
 	return paths
 
-extra_files = package_files('mkmcheck')
+extra_files = package_files('sheetclient')
 
 setup(
-	name='mkmcheck',
+	name='sheetclient',
 	version='1.0',
-	packages=['mkmcheck'],
+	packages=['sheetclient'],
 	package_data={'': extra_files},
 	dependency_links=[
 		'https://github.com/guldfisk/secretresources/tarball/master#egg=secretresources-1.0',
