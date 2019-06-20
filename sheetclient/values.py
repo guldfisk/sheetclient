@@ -1,4 +1,2 @@
 
-
-
 APPLICATION_NAME = 'sheetclient'
